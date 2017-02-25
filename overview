@@ -1,0 +1,7 @@
+take in a list of FASTQ files
+generate kmer counts for each
+for each sample versus other sample
+kmer union (5X)
+extract count of numbers in common
+create matrix
+use dendropy to create tree
