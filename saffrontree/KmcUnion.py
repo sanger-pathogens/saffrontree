@@ -4,6 +4,7 @@ import tempfile
 import subprocess
 import shutil
 import re
+import math
  
 '''union 2 kmer databases to find common kmers'''
 class KmcUnion:
@@ -31,7 +32,7 @@ class KmcUnion:
 		subprocess.call(self.kmc_histogram_command(),shell=True)
 	
 	def inverted_num_kmers(self):
-		return (1/self.num_common_kmers())
+		return (1/math.log1p(self.num_common_kmers()))
 	
 	def num_common_kmers(self):
 		total = 0
