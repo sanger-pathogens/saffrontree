@@ -43,13 +43,14 @@ class SaffronTree:
 				if first_sample == second_sample :
 					first_sample.distances[first_sample.fastq_file] = 0
 					continue
-				if first_sample.distances[second_sample.fastq_file]:
+				if second_sample.fastq_file in first_sample.distances:
 					continue
 				temp_working_dir = tempfile.mkdtemp(dir=os.path.abspath(self.output_directory))
 				result_database = os.path.join(temp_working_dir, 'fastq_union')
-				kmc_union = KmcUnion(first_sample.database_name, second_sample.database_name, output_directory, threads,result_database)
+				kmc_union = KmcUnion(first_sample.database_name, second_sample.database_name, self.output_directory, self.threads,result_database)
+				kmc_union.run()
 				first_sample.distances[second_sample.fastq_file] = kmc_union.inverted_num_kmers()
-				second_sample.distances[first_sample.fastq_file] = kmc_union.inverted_num_kmers()
+				second_sample.distances[first_sample.fastq_file] = first_sample.distances[second_sample.fastq_file]
 				kmc_union.cleanup()
 				
 		dm  = DistanceMatrix(self.output_directory,kmc_samples)

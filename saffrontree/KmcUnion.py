@@ -2,6 +2,7 @@ import os
 import logging
 import tempfile
 import subprocess
+import shutil
 import re
  
 '''union 2 kmer databases to find common kmers'''
@@ -37,9 +38,9 @@ class KmcUnion:
 		with open(self.output_histogram_file(), 'r') as histogram_file:
 			for line in histogram_file:
 				kmer_freq = re.split(r'\t+', line)
-				total = total + kmer_freq[1]
+				total = total + int(kmer_freq[1])
 		
 		return total
 	
 	def cleanup(self):
-		os.remove(self.temp_working_dir)
+		shutil.rmtree(self.temp_working_dir)
