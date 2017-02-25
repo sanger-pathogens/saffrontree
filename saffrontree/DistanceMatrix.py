@@ -20,15 +20,14 @@ class DistanceMatrix:
 			
 			# header 
 			file_of_distances.write(',')
-			file_of_distances.write( ','.join(keys(sorted(self.samples[0].distances))) + "\n")
-			file_of_distances.write( ','.join(self.samples[0].distances.keys().sorted()) + "\n")
+			file_of_distances.write( ','.join(sorted(self.samples[0].distances.keys())) + "\n")
 			
 			for sample in self.samples:
 				file_of_distances.write(sample.fastq_file + ',')
 				distances = []
-				for filename in sample.distances.keys().sorted()
-					distance.append(sample.distances[filename])
-				file_of_distances.write( ','.join(distance) + "\n")
+				for filename in sorted(sample.distances.keys()):
+					distances.append(str(sample.distances[filename]))
+				file_of_distances.write( ','.join(distances) + "\n")
 	
 	def cleanup(self):
 		shutil.rmtree(self.temp_working_dir)	
