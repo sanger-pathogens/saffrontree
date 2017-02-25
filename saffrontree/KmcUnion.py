@@ -36,8 +36,8 @@ class KmcUnion:
 		total = 0
 		with open(self.output_histogram_file(), 'r') as histogram_file:
 			for line in histogram_file:
-			kmer_freq = re.split(r'\t+', line)
-			total = total + kmer_freq[1]
+				kmer_freq = re.split(r'\t+', line)
+				total = total + kmer_freq[1]
 		
 		return total
 	
