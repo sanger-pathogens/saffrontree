@@ -16,8 +16,6 @@ class DistanceMatrix:
 		return os.path.join(self.temp_working_dir, 'distances.csv')
 	
 	def create_distance_file(self):
-		
-		
 		with open(self.output_distances_file, 'w') as file_of_distances:
 			
 			# header 

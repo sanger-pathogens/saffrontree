@@ -48,8 +48,8 @@ class SaffronTree:
 				temp_working_dir = tempfile.mkdtemp(dir=os.path.abspath(self.output_directory))
 				result_database = os.path.join(temp_working_dir, 'fastq_union')
 				kmc_union = KmcUnion(first_sample.database_name, second_sample.database_name, output_directory, threads,result_database)
-				first_sample.distances[second_sample.fastq_file] = kmc_union.num_common_kmers
-				second_sample.distances[first_sample.fastq_file] = kmc_union.num_common_kmers
+				first_sample.distances[second_sample.fastq_file] = kmc_union.inverted_num_kmers()
+				second_sample.distances[first_sample.fastq_file] = kmc_union.inverted_num_kmers()
 				kmc_union.cleanup()
 				
 		dm  = DistanceMatrix(self.output_directory,kmc_samples)
