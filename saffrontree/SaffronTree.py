@@ -64,7 +64,7 @@ class SaffronTree:
 		pdm = dendropy.PhylogeneticDistanceMatrix.from_csv(
 		        src=open(dm.output_distances_file()),
 		        delimiter=",")
-		nj_tree = pdm.nj_tree()
-		print(nj_tree.as_string("newick"))
+		tree = pdm.upgma_tree()
+		print(tree.as_string("newick"))
 			
 

@@ -20,8 +20,9 @@ class DistanceMatrix:
 	def adjust_distance(self, distance):
 		offset_distance = distance - self.smallest_count
 		if offset_distance > 0:
-			offset_distance = 1/math.log1p(offset_distance)
-		return offset_distance
+			return 1/offset_distance
+		else:
+			return 0
 	
 	def create_distance_file(self):
 		with open(self.output_distances_file(), 'w') as file_of_distances:
@@ -34,7 +35,7 @@ class DistanceMatrix:
 				file_of_distances.write(sample.fastq_file + ',')
 				distances = []
 				for filename in sorted(sample.distances.keys()):
-					distances.append(str(self.adjust_distance(sample.distances[filename])))
+					distances.append(str(self.adjust_distance(sample.distances[filename]) ) )
 				file_of_distances.write( ','.join(distances) + "\n")
 	
 	def cleanup(self):
