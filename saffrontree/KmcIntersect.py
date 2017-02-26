@@ -4,10 +4,10 @@ import tempfile
 import subprocess
 import shutil
 import re
-import math
+
  
-'''union 2 kmer databases to find common kmers'''
-class KmcUnion:
+'''intersect 2 kmer databases to find common kmers'''
+class KmcIntersect:
 	def __init__(self,first_database, second_database, output_directory, threads,result_database):
 		self.logger = logging.getLogger(__name__)
 		self.first_database = first_database
@@ -16,9 +16,10 @@ class KmcUnion:
 		self.result_database = result_database
 		self.temp_working_dir = tempfile.mkdtemp(dir=output_directory)
 		self.kmc_output = ''
+		self.common_kmer_count =0
 
-	def kmc_union_command(self):
-		return ' '.join(['kmc_tools', '-t'+str(self.threads), 'union', self.first_database, self.second_database, self.result_database ])
+	def kmc_intersect_command(self):
+		return ' '.join(['kmc_tools', '-t'+str(self.threads), 'intersect', self.first_database, self.second_database, self.result_database ])
 		
 	def kmc_histogram_command(self):
 		return ' '.join(['kmc_tools', 'histogram', self.result_database, self.output_histogram_file() ])
@@ -28,14 +29,15 @@ class KmcUnion:
 	
 	def run(self):
 		self.logger.info("Finding kmers")
-		subprocess.call(self.kmc_union_command(),shell=True)
+		subprocess.call(self.kmc_intersect_command(),shell=True)
 		subprocess.call(self.kmc_histogram_command(),shell=True)
-	
-	def inverted_num_kmers(self):
-		return (1/math.log1p(self.num_common_kmers()))
+		self.common_kmer_count = self.num_common_kmers()
 	
 	def num_common_kmers(self):
 		total = 0
+		if not os.path.exists(self.output_histogram_file()):
+			return 1
+
 		with open(self.output_histogram_file(), 'r') as histogram_file:
 			for line in histogram_file:
 				kmer_freq = re.split(r'\t+', line)

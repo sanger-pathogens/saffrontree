@@ -5,7 +5,7 @@ import tempfile
 import time
 import dendropy
 from saffrontree.KmcFastq import KmcFastq
-from saffrontree.KmcUnion import KmcUnion
+from saffrontree.KmcIntersect import KmcIntersect
 from saffrontree.SampleData import SampleData
 from saffrontree.DistanceMatrix import DistanceMatrix
 
@@ -38,6 +38,7 @@ class SaffronTree:
 		
 		self.logger.info("Generate a database of common kmers")
 
+		smallest_count = -1
 		for first_sample in kmc_samples:
 			for second_sample in kmc_samples:
 				if first_sample == second_sample :
@@ -47,13 +48,18 @@ class SaffronTree:
 					continue
 				temp_working_dir = tempfile.mkdtemp(dir=os.path.abspath(self.output_directory))
 				result_database = os.path.join(temp_working_dir, 'fastq_union')
-				kmc_union = KmcUnion(first_sample.database_name, second_sample.database_name, self.output_directory, self.threads,result_database)
-				kmc_union.run()
-				first_sample.distances[second_sample.fastq_file] = kmc_union.inverted_num_kmers()
+				kmc_intersect = KmcIntersect(first_sample.database_name, second_sample.database_name, self.output_directory, self.threads,result_database)
+				kmc_intersect.run()
+				first_sample.distances[second_sample.fastq_file] = kmc_intersect.num_common_kmers()
 				second_sample.distances[first_sample.fastq_file] = first_sample.distances[second_sample.fastq_file]
-				kmc_union.cleanup()
+				if smallest_count < 0:
+					smallest_count = kmc_intersect.common_kmer_count
+				if kmc_intersect.common_kmer_count < smallest_count:
+					smallest_count = kmc_intersect.common_kmer_count
+					
+				kmc_intersect.cleanup()
 				
-		dm  = DistanceMatrix(self.output_directory,kmc_samples)
+		dm  = DistanceMatrix(self.output_directory,kmc_samples,smallest_count)
 		dm.create_distance_file()
 		pdm = dendropy.PhylogeneticDistanceMatrix.from_csv(
 		        src=open(dm.output_distances_file()),
