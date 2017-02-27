@@ -29,7 +29,7 @@ class SaffronTree:
 
 		self.logger.info("Generating a kmer database for each sample")
 		kmc_samples =[]
-		for fastq_file in self.fastq_files:
+		for fastq_file in sorted(self.fastq_files):
 			sd = SampleData(fastq_file)
 			kmc_fastq = KmcFastq(self.output_directory, fastq_file, self.threads, self.kmer, self.min_kmers_threshold, self.max_kmers_threshold)
 			kmc_fastq.run()
@@ -42,7 +42,7 @@ class SaffronTree:
 		largest_count = 1
 		for first_sample in kmc_samples:
 			for second_sample in kmc_samples:
-				if first_sample == second_sample :
+				if first_sample.fastq_file == second_sample.fastq_file :
 					first_sample.distances[first_sample.fastq_file] = 0
 					continue
 				if second_sample.fastq_file in first_sample.distances:

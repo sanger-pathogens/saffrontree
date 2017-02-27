@@ -33,7 +33,7 @@ class DistanceMatrix:
 			file_of_distances.write(',')
 			file_of_distances.write( ','.join(sorted(self.samples[0].distances.keys())) + "\n")
 			
-			for sample in self.samples:
+			for sample in sorted(self.samples, key=lambda x: x.fastq_file) :
 				file_of_distances.write(sample.fastq_file + ',')
 				distances = []
 				for filename in sorted(sample.distances.keys()):
