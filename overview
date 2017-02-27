@@ -5,3 +5,12 @@ kmer union (5X)
 extract count of numbers in common
 create matrix
 use dendropy to create tree
+
+
+To do:
+cleanup temp directories
+suppress output from kmc
+make verbose work properly
+add comments
+tests
+Travis

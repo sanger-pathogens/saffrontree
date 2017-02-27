@@ -9,6 +9,10 @@ from saffrontree.KmcIntersect import KmcIntersect
 from saffrontree.SampleData import SampleData
 from saffrontree.DistanceMatrix import DistanceMatrix
 
+'''The main driving functionality of the whole application. This takes the input parameters from 
+the user and feeds then into different classes to caculate the results. A Newick tree is outputted
+at the end.
+'''
 class SaffronTree:
 	def __init__(self,options):
 		self.start_time = int(time.time())
@@ -38,7 +42,6 @@ class SaffronTree:
 		
 		self.logger.info("Generate a database of common kmers")
 
-		smallest_count = -1
 		largest_count = 1
 		for first_sample in kmc_samples:
 			for second_sample in kmc_samples:
@@ -54,16 +57,12 @@ class SaffronTree:
 				first_sample.distances[second_sample.fastq_file] = kmc_intersect.num_common_kmers()
 				second_sample.distances[first_sample.fastq_file] = first_sample.distances[second_sample.fastq_file]
 				
-				if smallest_count < 0:
-					smallest_count = kmc_intersect.common_kmer_count
-				if kmc_intersect.common_kmer_count < smallest_count:
-					smallest_count = kmc_intersect.common_kmer_count
 				if kmc_intersect.common_kmer_count > largest_count:
 					largest_count = kmc_intersect.common_kmer_count
 					
 				kmc_intersect.cleanup()
 				
-		dm  = DistanceMatrix(self.output_directory,kmc_samples,smallest_count, largest_count)
+		dm  = DistanceMatrix(self.output_directory,kmc_samples, largest_count)
 		dm.create_distance_file()
 		pdm = dendropy.PhylogeneticDistanceMatrix.from_csv(
 		        src=open(dm.output_distances_file()),
