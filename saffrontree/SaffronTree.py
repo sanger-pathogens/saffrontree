@@ -39,6 +39,7 @@ class SaffronTree:
 		self.logger.info("Generate a database of common kmers")
 
 		smallest_count = -1
+		largest_count = 1
 		for first_sample in kmc_samples:
 			for second_sample in kmc_samples:
 				if first_sample == second_sample :
@@ -52,14 +53,17 @@ class SaffronTree:
 				kmc_intersect.run()
 				first_sample.distances[second_sample.fastq_file] = kmc_intersect.num_common_kmers()
 				second_sample.distances[first_sample.fastq_file] = first_sample.distances[second_sample.fastq_file]
+				
 				if smallest_count < 0:
 					smallest_count = kmc_intersect.common_kmer_count
 				if kmc_intersect.common_kmer_count < smallest_count:
 					smallest_count = kmc_intersect.common_kmer_count
+				if kmc_intersect.common_kmer_count > largest_count:
+					largest_count = kmc_intersect.common_kmer_count
 					
 				kmc_intersect.cleanup()
 				
-		dm  = DistanceMatrix(self.output_directory,kmc_samples,smallest_count)
+		dm  = DistanceMatrix(self.output_directory,kmc_samples,smallest_count, largest_count)
 		dm.create_distance_file()
 		pdm = dendropy.PhylogeneticDistanceMatrix.from_csv(
 		        src=open(dm.output_distances_file()),

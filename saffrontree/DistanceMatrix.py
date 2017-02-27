@@ -7,20 +7,22 @@ import shutil
 import math
 
 class DistanceMatrix:
-	def __init__(self,output_directory, samples,smallest_count):
+	def __init__(self,output_directory, samples,smallest_count,largest_count):
 		self.logger = logging.getLogger(__name__)
 		self.output_directory = output_directory
 		self.samples = samples
 		self.smallest_count = smallest_count
+		self.largest_count = largest_count
 		self.temp_working_dir = tempfile.mkdtemp(dir=os.path.abspath(output_directory))
 	
 	def output_distances_file(self):
 		return os.path.join(self.temp_working_dir, 'distances.csv')
 	
 	def adjust_distance(self, distance):
-		offset_distance = distance - self.smallest_count
+		# scale the the distances. algorithm minimises them so need to subtract from largest
+		offset_distance = (self.largest_count + 1) - (distance)
 		if offset_distance > 0:
-			return 1/offset_distance
+			return offset_distance
 		else:
 			return 0
 	
