@@ -11,11 +11,10 @@ class InputTypes:
 		return filename
 	
 	'''All of the input files listed should exist'''
-	def are_fastqs_valid(filenames):
-		for filename in filenames:
-			if not os.path.exists(filename):
-				raise argparse.ArgumentTypeError('Cannot access input file')
-		return filenames
+	def is_fastq_valid(filename):
+		if not os.path.exists(filename):
+			raise argparse.ArgumentTypeError('Cannot access input file')
+		return filename
 	
 	'''Has a sensible kmer been passed in'''
 	def is_kmer_valid(value_str):
