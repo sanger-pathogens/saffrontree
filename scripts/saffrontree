@@ -18,7 +18,7 @@ except pkg_resources.DistributionNotFound:
 	version = 'x.y.z'
 
 parser = argparse.ArgumentParser(
-	description = 'SaffronTree: A tool to generate a tree from raw reads',
+	description = 'SaffronTree: A tool to generate a tree from raw reads, without the need for references or assembly',
 	usage = 'saffrontree [options] output_directory *.fastq.gz')
 parser.add_argument('output_directory', help='Output directory', type=InputTypes.is_output_directory_valid )
 parser.add_argument('fastq_files', help='FASTQ files which may be gzipped', nargs='+', type=InputTypes.is_fastq_valid)
