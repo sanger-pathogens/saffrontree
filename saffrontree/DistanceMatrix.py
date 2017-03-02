@@ -22,6 +22,8 @@ class DistanceMatrix:
 	'''The tree building algorithms put things with the shortest distance near each other'''
 	'''however our raw data is the opposite (num kmers in common), so we subtract from the larget distance found.'''
 	def adjust_distance(self, distance):
+		if distance == 0:
+			return 0
 		offset_distance = (self.largest_count + 1) - (distance)
 		if offset_distance > 0:
 			return offset_distance

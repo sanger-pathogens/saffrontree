@@ -1,0 +1,4 @@
+,sample1.fastq,sample2.fastq,sample3.fastq
+sample1.fastq,0,2,1
+sample2.fastq,2,0,4
+sample3.fastq,1,4,0
