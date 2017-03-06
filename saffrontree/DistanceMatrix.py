@@ -45,8 +45,8 @@ class DistanceMatrix:
 			file_of_distances.write( ','.join(sorted(self.samples[0].distances.keys())) + "\n")
 			
 			'''Sort the filenames in the same order as header'''
-			for sample in sorted(self.samples, key=lambda x: x.fastq_file) :
-				file_of_distances.write(sample.fastq_file + ',')
+			for sample in sorted(self.samples, key=lambda x: x.input_file) :
+				file_of_distances.write(sample.input_file + ',')
 				
 				'''lookup the distances for this sample against all others'''
 				distances = []

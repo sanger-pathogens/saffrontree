@@ -15,7 +15,7 @@ class TestKmcFastq(unittest.TestCase):
 		actual_command = (k.kmc_command()).replace(k.temp_working_dir,'/path')
 		actual_command = actual_command.replace(data_dir, '/testdir')
 		
-		self.assertEqual(actual_command, 'kmc -k10 -ci10 -cx200 -t1 /testdir/S_typhi_CT18_chromosome_1.fastq.gz /path/fastq_kmers /path > /dev/null 2>&1')
+		self.assertEqual(actual_command, 'kmc -k10 -fq -ci10 -cx200 -t1 /testdir/S_typhi_CT18_chromosome_1.fastq.gz /path/fastq_kmers /path > /dev/null 2>&1')
 		k.cleanup()
 		
 	'''Dont suppress the KMC output'''
@@ -24,7 +24,19 @@ class TestKmcFastq(unittest.TestCase):
 		actual_command = (k.kmc_command()).replace(k.temp_working_dir,'/path')
 		actual_command = actual_command.replace(data_dir, '/testdir')
 		
-		self.assertEqual(actual_command, 'kmc -k10 -ci10 -cx200 -t1 /testdir/S_typhi_CT18_chromosome_1.fastq.gz /path/fastq_kmers /path ')
+		self.assertEqual(actual_command, 'kmc -k10 -fq -ci10 -cx200 -t1 /testdir/S_typhi_CT18_chromosome_1.fastq.gz /path/fastq_kmers /path ')
+		k.cleanup()
+		
+		
+	'''Check the kmc command and parameters are put together in a sensible manner'''
+	def test_kmc_command_fasta(self):
+		k = KmcFastq(os.getcwd(), os.path.join(data_dir, 'sample.fasta'), 1, 10, 10, 200, False  )
+		
+		# filter out the temp directory
+		actual_command = (k.kmc_command()).replace(k.temp_working_dir,'/path')
+		actual_command = actual_command.replace(data_dir, '/testdir')
+		
+		self.assertEqual(actual_command, 'kmc -k10 -fm -ci10 -cx200 -t1 /testdir/sample.fasta /path/fastq_kmers /path > /dev/null 2>&1')
 		k.cleanup()
 		
 	'''When real data is provided, run the kmc command to generate a kmer database'''

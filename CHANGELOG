@@ -1,3 +1,7 @@
+v0.0.3 - 02/03/17
+------
+Add tests and support for FASTA files.
+
 v0.0.2 - 27/02/17
 ------
 Code cleanup. Working version.
