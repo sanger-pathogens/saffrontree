@@ -33,7 +33,7 @@ download () {
 # --------------- KMC ------------------
 cd $build_dir
 download "${KMC_DOWNLOAD_URL}" "KMC3.linux.tar.gz"
-tar zxf KMC3.linux.tar
+tar zxf KMC3.linux.tar.gz
 
 # --------------- SPAdes ------------------
 cd $build_dir

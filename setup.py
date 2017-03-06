@@ -17,6 +17,7 @@ setup(
     description='saffrontree: build a tree from raw reads using kmers',
 	long_description=read('README.md'),
     packages = find_packages(),
+	package_data={'saffrontree': ['example_data/*']},
     author='Andrew J. Page',
     author_email='path-help@sanger.ac.uk',
     url='https://github.com/sanger-pathogens/saffrontree',

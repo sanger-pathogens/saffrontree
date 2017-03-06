@@ -28,6 +28,8 @@ class TestSaffronTree(unittest.TestCase):
 		self.assertTrue(st.run())
 		shutil.rmtree(os.path.join(data_dir,'out'))
 		
+		self.assertFalse(os.path.exists(os.path.join(data_dir, 'out', '')))
+		
 	'''Mix FASTQ files with FASTA files'''
 	def test_fastq_files(self):
 		if os.path.exists(os.path.join(data_dir,'out')):

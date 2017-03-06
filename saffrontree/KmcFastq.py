@@ -14,7 +14,13 @@ class KmcFastq:
 		self.input_filename = input_filename
 		self.threads = threads
 		self.kmer = kmer
-		self.min_kmers_threshold = min_kmers_threshold
+		
+		if self.file_type_option() == '-fm':
+			# a FASTA file doesnt have a depth of coverage
+			self.min_kmers_threshold = 1
+		else:
+			self.min_kmers_threshold = min_kmers_threshold
+			
 		self.max_kmers_threshold = max_kmers_threshold
 		self.temp_working_dir = tempfile.mkdtemp(dir=os.path.abspath(output_directory))
 		self.verbose = verbose
