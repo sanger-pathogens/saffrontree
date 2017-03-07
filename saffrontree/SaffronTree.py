@@ -23,51 +23,73 @@ class SaffronTree:
 		self.kmer                       = options.kmer
 		self.min_kmers_threshold        = options.min_kmers_threshold
 		self.max_kmers_threshold        = options.max_kmers_threshold
-		self.fastq_files                = options.fastq_files
+		self.input_files                = options.input_files
+		self.object_to_be_cleaned       = []
 
 		if self.verbose:
 			self.logger.setLevel(10)
 
-	def run(self):
-		os.makedirs(self.output_directory)
-
-		self.logger.info("Generating a kmer database for each sample")
+	def generate_kmers_for_each_file(self):
 		kmc_samples =[]
-		for fastq_file in sorted(self.fastq_files):
-			sd = SampleData(fastq_file)
-			kmc_fastq = KmcFastq(self.output_directory, fastq_file, self.threads, self.kmer, self.min_kmers_threshold, self.max_kmers_threshold)
+		for input_file in sorted(self.input_files):
+			sd = SampleData(input_file)
+			kmc_fastq = KmcFastq(self.output_directory, input_file, self.threads, self.kmer, self.min_kmers_threshold, self.max_kmers_threshold)
 			kmc_fastq.run()
 			sd.database_name = kmc_fastq.output_database_name()
 			kmc_samples.append(sd)
-		
-		self.logger.info("Generate a database of common kmers")
+			self.object_to_be_cleaned.append(kmc_fastq)
+		return kmc_samples
 
+	def calculate_intersections_and_largest_count(self, kmc_samples):
 		largest_count = 1
 		for first_sample in kmc_samples:
 			for second_sample in kmc_samples:
-				if first_sample.fastq_file == second_sample.fastq_file :
-					first_sample.distances[first_sample.fastq_file] = 0
+				if first_sample.input_file == second_sample.input_file :
+					first_sample.distances[first_sample.input_file] = 0
 					continue
-				if second_sample.fastq_file in first_sample.distances:
+				if second_sample.input_file in first_sample.distances:
 					continue
 				temp_working_dir = tempfile.mkdtemp(dir=os.path.abspath(self.output_directory))
 				result_database = os.path.join(temp_working_dir, 'fastq_union')
 				kmc_intersect = KmcIntersect(first_sample.database_name, second_sample.database_name, self.output_directory, self.threads,result_database)
 				kmc_intersect.run()
-				first_sample.distances[second_sample.fastq_file] = kmc_intersect.num_common_kmers()
-				second_sample.distances[first_sample.fastq_file] = first_sample.distances[second_sample.fastq_file]
+				first_sample.distances[second_sample.input_file] = kmc_intersect.num_common_kmers()
+				second_sample.distances[first_sample.input_file] = first_sample.distances[second_sample.input_file]
 				
 				if kmc_intersect.common_kmer_count > largest_count:
 					largest_count = kmc_intersect.common_kmer_count
 					
 				kmc_intersect.cleanup()
-				
-		dm  = DistanceMatrix(self.output_directory,kmc_samples, largest_count)
+		return largest_count
+
+	def create_output_tree(self, kmc_samples, largest_count):
+		'''Calculate the tree from the distance matrix'''
+		dm  = DistanceMatrix(self.output_directory, kmc_samples, largest_count)
 		dm.create_distance_file()
+		self.object_to_be_cleaned.append(dm)
 		pdm = dendropy.PhylogeneticDistanceMatrix.from_csv(
 		        src=open(dm.output_distances_file()),
 		        delimiter=",")
 		tree = pdm.upgma_tree()
-		print(tree.as_string("newick"))
-			
+		
+		'''Print the final tree'''
+		with open(os.path.join(self.output_directory, 'kmer_tree.newick'), 'w') as tree_file:
+			tree_file.write(tree.as_string("newick"))
 
+	def run(self):
+		os.makedirs(self.output_directory)
+		self.logger.info("Generating a kmer database for each sample")
+		kmc_samples = self.generate_kmers_for_each_file()
+		
+		self.logger.info("Calculate interesections of kmers between samples")
+		largest_count = self.calculate_intersections_and_largest_count(kmc_samples)
+		
+		self.logger.info("Creating a newick tree")
+		self.create_output_tree(kmc_samples, largest_count)
+
+		if not self.verbose:
+			'''Tidy up all the temp files'''
+			for current_obj in self.object_to_be_cleaned:
+				current_obj.cleanup()
+		return self
+			

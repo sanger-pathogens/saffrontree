@@ -4,10 +4,10 @@ set -x
 
 start_dir=$(pwd)
 
-KMC_VERSION=2.3.0
-SPADES_VERSION=3.9.1
+KMC_VERSION=3.0.0
+SPADES_VERSION=3.10.1
 
-KMC_DOWNLOAD_URL="http://sun.aei.polsl.pl/REFRESH/kmc/downloads/${KMC_VERSION}/linux/"
+KMC_DOWNLOAD_URL="https://github.com/refresh-bio/KMC/releases/download/v${KMC_VERSION}/KMC3.linux.tar.gz"
 SPADES_URL="http://cab.spbu.ru/files/release${SPADES_VERSION}/SPAdes-${SPADES_VERSION}-Linux.tar.gz"
 
 # Make an install location
@@ -32,10 +32,8 @@ download () {
 
 # --------------- KMC ------------------
 cd $build_dir
-download "${KMC_DOWNLOAD_URL}kmc" "kmc"
-download "${KMC_DOWNLOAD_URL}kmc_tools" "kmc_tools"
-chmod +x kmc
-chmod +x kmc_tools
+download "${KMC_DOWNLOAD_URL}" "KMC3.linux.tar.gz"
+tar zxf KMC3.linux.tar.gz
 
 # --------------- SPAdes ------------------
 cd $build_dir

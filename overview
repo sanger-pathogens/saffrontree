@@ -6,6 +6,7 @@ extract count of numbers in common
 create matrix
 use dendropy to create tree
 
+Reference free, no de novo assembly
 
 To do:
 cleanup temp directories
@@ -14,3 +15,7 @@ make verbose work properly
 add comments
 tests
 Travis
+
+
+Allow FASTA files as input
+Needs KMC v3
