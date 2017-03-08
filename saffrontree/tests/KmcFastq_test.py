@@ -28,7 +28,7 @@ class TestKmcFastq(unittest.TestCase):
 		k.cleanup()
 		
 		
-	'''Check the kmc command and parameters are put together in a sensible manner'''
+	'''Check the kmc command and parameters and that min coverage is adjusted to 1'''
 	def test_kmc_command_fasta(self):
 		k = KmcFastq(os.getcwd(), os.path.join(data_dir, 'sample.fasta'), 1, 10, 10, 200, False  )
 		
@@ -36,7 +36,7 @@ class TestKmcFastq(unittest.TestCase):
 		actual_command = (k.kmc_command()).replace(k.temp_working_dir,'/path')
 		actual_command = actual_command.replace(data_dir, '/testdir')
 		
-		self.assertEqual(actual_command, 'kmc -k10 -fm -ci10 -cx200 -t1 /testdir/sample.fasta /path/fastq_kmers /path > /dev/null 2>&1')
+		self.assertEqual(actual_command, 'kmc -k10 -fm -ci1 -cx200 -t1 /testdir/sample.fasta /path/fastq_kmers /path > /dev/null 2>&1')
 		k.cleanup()
 		
 	'''When real data is provided, run the kmc command to generate a kmer database'''
