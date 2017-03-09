@@ -8,6 +8,7 @@ from saffrontree.KmcFastq import KmcFastq
 from saffrontree.KmcIntersect import KmcIntersect
 from saffrontree.SampleData import SampleData
 from saffrontree.DistanceMatrix import DistanceMatrix
+from saffrontree.KmcVersionDetect import KmcVersionDetect
 
 '''The main driving functionality of the whole application. This takes the input parameters from 
 the user and feeds then into different classes to caculate the results. A Newick tree is outputted
@@ -25,6 +26,8 @@ class SaffronTree:
 		self.max_kmers_threshold        = options.max_kmers_threshold
 		self.input_files                = options.input_files
 		self.object_to_be_cleaned       = []
+		
+		self.kmc_major_version = KmcVersionDetect(self.verbose).major_version()
 
 		if self.verbose:
 			self.logger.setLevel(10)
@@ -51,7 +54,7 @@ class SaffronTree:
 					continue
 				temp_working_dir = tempfile.mkdtemp(dir=os.path.abspath(self.output_directory))
 				result_database = os.path.join(temp_working_dir, 'fastq_union')
-				kmc_intersect = KmcIntersect(first_sample.database_name, second_sample.database_name, self.output_directory, self.threads,result_database)
+				kmc_intersect = KmcIntersect(first_sample.database_name, second_sample.database_name, self.output_directory, self.threads,result_database, self.verbose, self.kmc_major_version )
 				kmc_intersect.run()
 				first_sample.distances[second_sample.input_file] = kmc_intersect.num_common_kmers()
 				second_sample.distances[first_sample.input_file] = first_sample.distances[second_sample.input_file]
@@ -67,10 +70,11 @@ class SaffronTree:
 		dm  = DistanceMatrix(self.output_directory, kmc_samples, largest_count)
 		dm.create_distance_file()
 		self.object_to_be_cleaned.append(dm)
-		pdm = dendropy.PhylogeneticDistanceMatrix.from_csv(
-		        src=open(dm.output_distances_file()),
+		with open(dm.output_distances_file(), 'r') as distance_matrix:
+			pdm = dendropy.PhylogeneticDistanceMatrix.from_csv(
+		        src=distance_matrix,
 		        delimiter=",")
-		tree = pdm.upgma_tree()
+			tree = pdm.upgma_tree()
 		
 		'''Print the final tree'''
 		with open(os.path.join(self.output_directory, 'kmer_tree.newick'), 'w') as tree_file:

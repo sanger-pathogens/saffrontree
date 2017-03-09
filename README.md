@@ -53,12 +53,15 @@ By default all of the intermediate files are cleaned up at the end, so the overa
 A single phylogenetic tree in Newick format is created in the output directory. 
 
 #Installation
-There are a number of installation methods. Choosing the right one for the system you use will make life easier. As KMC version 3 is not currently packaged for any system (only the incompatible version 2.3.0), you will need to manually install it, and should add it permanently to your PATH.
+There are a number of installation methods. Choosing the right one for the system you use will make life easier. KMC version 2.3+ is supported, with KMC 3+ providing the best performance. 
 
 * Linux 
   * Debian Testing/Ubuntu 16.04 (Xenial)
-  * Manual Linux
+  * Ubuntu 14.04 (Trusty)
+  * Linuxbrew
 * OSX
+  * HomeBrew
+  * OSX manual method
 * Linux/OSX/Windows/Cloud
   * Docker
 
@@ -68,25 +71,44 @@ The instructions for Linux assume you have root (sudo) on your machine.
 ###Debian Testing/Ubuntu 16.04 (Xenial)
 ```
 apt-get update -qq
-apt-get install -y wget git python3 python3-setuptools python3-biopython python3-pip
-mkdir -p bin
-cd bin
-wget https://github.com/refresh-bio/KMC/releases/download/v3.0.0/KMC3.linux.tar.gz 
-tar zxf KMC3.linux.tar.gz
-export PATH=$PWD:$PATH
+apt-get install -y git python3 python3-setuptools python3-biopython python3-pip kmc
 pip3 install git+git://github.com/sanger-pathogens/saffrontree.git
 ```
 
-###Manual Linux
-Ensure Python 3.5+ is available or install it from https://www.python.org/downloads/ then follow the instructions below:
+###Ubuntu 14.04 (Trusty)
+You can either manually install [KMC](http://sun.aei.polsl.pl/REFRESH/index.php?page=projects&project=kmc&subpage=about) and [SPAdes](http://bioinf.spbau.ru/spades), or use the install_dependancies script (you will need to add some paths to your PATH environment variable).
+
 ```
-wget https://github.com/refresh-bio/KMC/releases/download/v3.0.0/KMC3.linux.tar.gz 
-tar zxf KMC3.linux.tar.gz
-export PATH=$PWD:$PATH
+apt-get update -qq
+apt-get install -y wget git python3 python3-setuptools python3-biopython python3-pip
+wget https://raw.githubusercontent.com/sanger-pathogens/saffrontree/master/install_dependancies.sh
+source ./install_dependancies.sh
+pip3 install git+git://github.com/sanger-pathogens/saffrontree.git
+```
+
+###Linuxbrew
+These instructions are untested. First install [LinuxBrew](http://linuxbrew.sh/), then follow the instructions below.
+
+```
+brew tap homebrew/science
+brew update
+brew install python3 kmc spades
 pip3 install git+git://github.com/sanger-pathogens/saffrontree.git
 ```
 
 ##OSX
+
+###Homebrew
+These instructions are untested. First install [HomeBrew](http://brew.sh/), then follow the instructions below.
+
+```
+brew tap homebrew/science
+brew update
+brew install python3 kmc spades
+pip3 install git+git://github.com/sanger-pathogens/saffrontree.git
+```
+
+###OSX manual method
 Ensure Python 3.5+ is available or install it from https://www.python.org/downloads/ then follow the instructions below:
 ```
 wget https://github.com/refresh-bio/KMC/releases/download/v3.0.0/KMC3.mac.tar.gz 

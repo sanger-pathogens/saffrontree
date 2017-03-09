@@ -7,7 +7,7 @@ import re
  
 '''Wrapper around KMC tools to intersect 2 kmer databases to find common kmers'''
 class KmcIntersect:
-	def __init__(self,first_database, second_database, output_directory, threads, result_database, verbose = False):
+	def __init__(self,first_database, second_database, output_directory, threads, result_database, verbose, kmc_major_version ):
 		self.logger = logging.getLogger(__name__)
 		self.first_database = first_database
 		self.second_database = second_database
@@ -17,20 +17,29 @@ class KmcIntersect:
 		self.kmc_output = ''
 		self.common_kmer_count = 0
 		self.verbose = verbose
+		self.kmc_major_version = kmc_major_version
 
 	'''Construct the command for kmc_tools to find the intersection of two databases'''
 	def kmc_intersect_command(self):
 		redirect_output = '> /dev/null 2>&1'
 		if self.verbose:
 			redirect_output = ''
-		return ' '.join(['kmc_tools', '-t'+str(self.threads), 'simple', self.first_database, self.second_database, 'intersect', self.result_database, redirect_output ])
+			
+		if self.kmc_major_version == 2:	
+			return ' '.join(['kmc_tools', '-t'+str(self.threads), 'intersect', self.first_database, self.second_database, self.result_database, redirect_output ])
+		else:
+			return ' '.join(['kmc_tools', '-t'+str(self.threads), 'simple', self.first_database, self.second_database, 'intersect', self.result_database, redirect_output ])
 	
 	'''Construct the command for kmc_tools to generate a histogram of the kmer frequencies'''	
 	def kmc_histogram_command(self):
 		redirect_output = '> /dev/null 2>&1'
 		if self.verbose:
 			redirect_output = ''
-		return ' '.join(['kmc_tools', 'transform', self.result_database, 'histogram',  self.output_histogram_file(), redirect_output ])
+			
+		if self.kmc_major_version == 2:
+			return ' '.join(['kmc_tools', 'histogram', self.result_database, self.output_histogram_file(), redirect_output ])
+		else:
+			return ' '.join(['kmc_tools', 'transform', self.result_database, 'histogram',  self.output_histogram_file(), redirect_output ])
 	
 	'''The temp filename of the histogram output'''
 	def output_histogram_file(self):
