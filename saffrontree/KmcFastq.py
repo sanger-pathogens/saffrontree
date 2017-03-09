@@ -46,7 +46,7 @@ class KmcFastq:
 	
 	'''Run the kmc command'''
 	def run(self):	
-		self.logger.info("Extracting Kmers from FASTQ file" )
+		self.logger.warning("Extracting Kmers from FASTQ file" )
 		subprocess.call(self.kmc_command(),shell=True)
 		return self
 	

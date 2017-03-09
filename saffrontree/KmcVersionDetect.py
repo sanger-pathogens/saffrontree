@@ -14,7 +14,7 @@ class KmcVersionDetect:
 	'''K-Mer Counter (KMC) ver. 2.3.0 (2015-08-21)'''
 	'''K-Mer Counter (KMC) ver. 3.0.0 (2017-01-28)'''
 	def find_version(self):	
-		self.logger.info("Detecting the version of KMC" )
+		self.logger.warning("Detecting the version of KMC" )
 		kmc_output = check_output(["kmc"], universal_newlines=True)
 
 		version_search_results = re.search("ver\. ([\d]+\.[\d]+\.[\d]+) ", kmc_output)

@@ -4,6 +4,8 @@ import logging
 import tempfile
 import time
 import dendropy
+import shutil
+import argparse
 from saffrontree.KmcFastq import KmcFastq
 from saffrontree.KmcIntersect import KmcIntersect
 from saffrontree.SampleData import SampleData
@@ -26,15 +28,16 @@ class SaffronTree:
 		self.max_kmers_threshold        = options.max_kmers_threshold
 		self.input_files                = options.input_files
 		self.object_to_be_cleaned       = []
-		
+
 		self.kmc_major_version = KmcVersionDetect(self.verbose).major_version()
 
-		if self.verbose:
-			self.logger.setLevel(10)
+		if self.verbose > 0:
+			self.logger.setLevel(logging.DEBUG)
 
 	def generate_kmers_for_each_file(self):
 		kmc_samples =[]
 		for input_file in sorted(self.input_files):
+			self.logger.warning('Generating kmer counts for %s', input_file)
 			sd = SampleData(input_file)
 			kmc_fastq = KmcFastq(self.output_directory, input_file, self.threads, self.kmer, self.min_kmers_threshold, self.max_kmers_threshold)
 			kmc_fastq.run()
@@ -47,6 +50,7 @@ class SaffronTree:
 		largest_count = 1
 		for first_sample in kmc_samples:
 			for second_sample in kmc_samples:
+				self.logger.warning('Comparing kmers in %s to %s', first_sample.input_file,second_sample.input_file )
 				if first_sample.input_file == second_sample.input_file :
 					first_sample.distances[first_sample.input_file] = 0
 					continue
@@ -58,6 +62,8 @@ class SaffronTree:
 				kmc_intersect.run()
 				first_sample.distances[second_sample.input_file] = kmc_intersect.num_common_kmers()
 				second_sample.distances[first_sample.input_file] = first_sample.distances[second_sample.input_file]
+				if self.verbose < 1:
+					shutil.rmtree(temp_working_dir)	
 				
 				if kmc_intersect.common_kmer_count > largest_count:
 					largest_count = kmc_intersect.common_kmer_count
@@ -81,17 +87,18 @@ class SaffronTree:
 			tree_file.write(tree.as_string("newick"))
 
 	def run(self):
+		self.logger.warning('Using KMC syntax version %s', self.kmc_major_version)
 		os.makedirs(self.output_directory)
-		self.logger.info("Generating a kmer database for each sample")
+		self.logger.warning("Generating a kmer database for each sample")
 		kmc_samples = self.generate_kmers_for_each_file()
 		
-		self.logger.info("Calculate interesections of kmers between samples")
+		self.logger.warning("Calculate intersections of kmers between samples")
 		largest_count = self.calculate_intersections_and_largest_count(kmc_samples)
 		
-		self.logger.info("Creating a newick tree")
+		self.logger.warning("Creating a newick tree")
 		self.create_output_tree(kmc_samples, largest_count)
 
-		if not self.verbose:
+		if self.verbose < 1:
 			'''Tidy up all the temp files'''
 			for current_obj in self.object_to_be_cleaned:
 				current_obj.cleanup()

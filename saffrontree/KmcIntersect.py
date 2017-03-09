@@ -47,7 +47,7 @@ class KmcIntersect:
 	
 	'''Find the intersection of the two databases, and count number of kmers in common'''
 	def run(self):
-		self.logger.info("Finding kmers")
+		self.logger.warning("Finding kmers")
 		subprocess.call(self.kmc_intersect_command(), shell=True)
 		subprocess.call(self.kmc_histogram_command(), shell=True)
 		self.common_kmer_count = self.num_common_kmers()

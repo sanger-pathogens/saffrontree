@@ -42,6 +42,27 @@ __threads__: This sets the number of threads available to KMC. It should never b
 
 __verbose__: By default the output is silent and all intermediate files are deleted as it goes along. Setting this flag allows you output more details of the software as it runs and it keeps the intermediate files.
 
+##Example data
+This repository includes some sample data, consisting of FASTQ files and FASTA files derived from Salmonella reference genomes. Only the 1st 10,000 bases of each reference was taken, however since they all have the same start sites (dnaA) they contain some overlapping material. These sequences were then used to generate simulated reads in FASTQ format.  The data itself covers a variety of serovars of Salmonella (a highly clonal, medically important pathogen). The S. Typhimurium samples would be expected to cluster near each other. Similarly the S. Typhi and S. Paratyphi A would be expected to cluster together. S. Weltevreden is an outgroup and should not be close to any of the other serovars. All of these serovars, except S. Weltevreden, cause very severe disease in Humans.
+
+To build a tree with the FASTA files only:
+
+```
+saffrontree output_directory saffrontree/example_data/fastas/*.fa
+```
+This is the [resulting tree](https://raw.githubusercontent.com/sanger-pathogens/saffrontree/master/saffrontree/example_data/fastas/expected_output_tree.newick). 
+
+To build a tree with the FASTQ files only:
+```
+saffrontree output_directory saffrontree/example_data/fastqs/*.fastqs.gz
+```
+This is the [resulting tree](https://raw.githubusercontent.com/sanger-pathogens/saffrontree/master/saffrontree/example_data/fastqs/expected_output_tree.newick).
+
+Finally you can mix FASTAs and FASTQ files (which my be GZipped):
+```
+saffrontree output_directory saffrontree/example_data/fastas/*.fa saffrontree/example_data/fastqs/*.fastq.gz
+```
+
 ##Required resources
 ###RAM (memory)
 The RAM(memory) requirement is low, because KMC is extremely efficient and mostly disk based. 
@@ -134,3 +155,48 @@ To run the example data that is part the repository run:
 docker run --rm -it -v /home/ubuntu/data:/data sangerpathogens/saffrontree saffrontree output /usr/local/lib/python3.5/dist-packages/saffrontree/example_data/*
 ```
 
+#FAQ
+##How to contribute to the software
+If you wish to contribute to this software please fork the project on GitHub and submit a pull request. We will endevor to review it within a few days. Please include automated tests and example data (if relevant) in your pull request and ensure all the existing tests already pass. Comments and documentation should be in British English.
+
+##Bug reports, feature requests and any questions
+If you wish to report a bug, request a new feature or have any queries about how the software works, please submit an issue on the GitHub repository page. We will try to fix bugs in a timely fashion. New feature requests will depend on if we find them useful in our own work. If you would like to contact us directly, you can email path-help@sanger.ac.uk and we will get back to you. We are based in the UK (GMT), working Monday to Friday (9-5).
+
+##I found a bug with some data but its private, can I send it to you for debugging?
+Please do not send us any private data. We will not sign an NDA. 
+
+##Can I use long read data?
+If your PacBio/nanopore (long read) data is in FASTQ format, then the answer is yes, however we have only tested it on corrected reads. Uncorrected reads are unlikely to work because your nearly guaranteed that a sequencing error will occur inside of the length of a k-mer.
+
+##Will you make it work with Python 2?
+No. Python 3 is well supported, stable and mature, so please just install this instead.
+
+##Will there be a Windows version?
+The only way to run it on Windows is via Docker. We have no plans for a native version. Honest though, if your using Windows to perform bioinformatics, your in trouble.
+
+##How do I view Newick trees?
+The newick format is widely supported and I find [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) to be excellent.
+
+##Do you plan to support other formats like Nexsus?
+No, we have no plans to support other tree types, since Newick does the job.
+
+##Its really slow on massive datasets
+Yes, the complexity is O(N^2), which means it scales poorly. But for a few dozen samples it works much quicker than other methods, so it fills a niche.
+
+##What method is used for tree construction?
+We use UPGMA, which is like Neighbour Joining.
+
+##Can I send you my data for analysis?
+No, please install the software yourself and perform your own analysis.
+
+##The branch lengths are crazy?
+Its a quick and dirty analysis from raw reads, so accuratly estimating branch lengths can be difficult. Whats important is what samples are near each other on a tree.
+
+##Do I need to provide both forward and reverse reads?
+No, all FASTQ files are treated independantly, so they will end up in the same place in the tree (if everything goes to plan).
+
+##Can I mix FASTA and FASTQ files?
+Yes.
+
+##Can the input files be GZipped?
+Yes, it automatically uncompresses them on the fly.
