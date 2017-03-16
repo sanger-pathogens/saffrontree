@@ -7,17 +7,17 @@ from setuptools import setup, find_packages
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
-version = 'x'
+version = 'x.y.z'
 if os.path.exists('VERSION'):
   version = open('VERSION').read().strip()
 
 setup(
     name='saffrontree',
     version=version,
-    description='saffrontree: build a tree from raw reads using kmers',
+    description='SaffronTree: Reference free rapid phylogenetic tree construction from raw read data',
 	long_description=read('README.md'),
     packages = find_packages(),
-	package_data={'saffrontree': ['example_data/*']},
+	package_data={'saffrontree': ['example_data/fastas/*', 'example_data/fastqs/*']},
     author='Andrew J. Page',
     author_email='path-help@sanger.ac.uk',
     url='https://github.com/sanger-pathogens/saffrontree',

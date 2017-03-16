@@ -1,6 +1,5 @@
 import sys
 import os
-import logging
 import subprocess
 import tempfile
 import shutil
@@ -9,11 +8,10 @@ import math
 '''Take in the results of the kmer analysis and create distance matrix that can be used to build a tree.'''
 class DistanceMatrix:
 	def __init__(self,output_directory, samples,largest_count):
-		self.logger = logging.getLogger(__name__)
 		self.output_directory = output_directory
 		self.samples = samples
 		self.largest_count = largest_count
-		self.temp_working_dir = tempfile.mkdtemp(dir=os.path.abspath(output_directory))
+		self.temp_working_dir = tempfile.mkdtemp(dir=os.path.abspath(output_directory), prefix='tmp_distancematrix_')
 	
 	'''The name of the file containing the matrix of distances'''
 	def output_distances_file(self):

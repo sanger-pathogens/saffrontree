@@ -9,16 +9,20 @@ class KmcVersionDetect:
 		self.logger = logging.getLogger(__name__)
 		self.verbose = verbose
 		self.kmc_version = self.find_version()
+		if self.verbose:
+			self.logger.setLevel(logging.DEBUG)
+		else:
+			self.logger.setLevel(logging.ERROR)
 	
 	'''Run the kmc command which contains the version string at the top'''
 	'''K-Mer Counter (KMC) ver. 2.3.0 (2015-08-21)'''
 	'''K-Mer Counter (KMC) ver. 3.0.0 (2017-01-28)'''
 	def find_version(self):	
-		self.logger.warning("Detecting the version of KMC" )
 		kmc_output = check_output(["kmc"], universal_newlines=True)
 
 		version_search_results = re.search("ver\. ([\d]+\.[\d]+\.[\d]+) ", kmc_output)
 		if version_search_results:
+			self.logger.warning("Found KMC version "+ version_search_results.group(1))
 			return version_search_results.group(1)
 		else:
 			return '0.0.0'
