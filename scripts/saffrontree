@@ -18,7 +18,7 @@ except pkg_resources.DistributionNotFound:
 	version = 'x.y.z'
 
 parser = argparse.ArgumentParser(
-	description = 'SaffronTree: A tool to generate a tree from raw reads, without the need for references or assembly',
+	description = 'SaffronTree: Reference free rapid phylogenetic tree construction from raw read data or assembled sequences',
 	usage = 'saffrontree [options] output_directory *.fastq.gz')
 parser.add_argument('output_directory', help='Output directory', type=InputTypes.is_output_directory_valid )
 parser.add_argument('input_files', help='FASTQ/FASTA files which may be gzipped', nargs='+', type=InputTypes.is_fastq_valid)
@@ -26,7 +26,7 @@ parser.add_argument('--kmer',	                     '-k', help='Kmer to use, depe
 parser.add_argument('--min_kmers_threshold',	     '-m', help='Exclude k-mers occurring less than this [%(default)s]', type=InputTypes.is_min_kmers_threshold_valid,  default = 5)
 parser.add_argument('--max_kmers_threshold',	     '-x', help='Exclude k-mers occurring more than this [%(default)s]', type=InputTypes.is_max_kmers_threshold_valid,  default = 255)
 parser.add_argument('--threads',                     '-t', help='Number of threads [%(default)s]', type=InputTypes.is_threads_valid,  default = 1)
-parser.add_argument('--verbose',                     '-v', action='count', help='Turn on debugging [%(default)s]', default = 0)
+parser.add_argument('--verbose',                     '-v', action='count', help='Turn on debugging and keep intermediate files [%(default)s]', default = 0)
 parser.add_argument('--version', action='version', version=str(version))
 
 options = parser.parse_args()
