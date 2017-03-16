@@ -10,8 +10,7 @@ Quickly build a tree directly from raw reads or from assembled sequences, withou
 ```
 usage: saffrontree [options] output_directory *.fastq.gz
 
-SaffronTree: A tool to generate a tree from raw reads, without the need for
-references or assembly
+SaffronTree: Fast, reference-free pseudo-phylogenomic trees from reads or contigs.
 
 positional arguments:
   output_directory      Output directory

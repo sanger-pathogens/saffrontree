@@ -1,5 +1,5 @@
 ---
-title: 'SaffronTree: Reference free rapid phylogenetic tree construction from raw read data'
+title: 'SaffronTree: Fast, reference-free pseudo-phylogenomic trees from reads or contigs.'
 tags:
   - bioinformatics
   - phylogenetics

@@ -18,7 +18,7 @@ except pkg_resources.DistributionNotFound:
 	version = 'x.y.z'
 
 parser = argparse.ArgumentParser(
-	description = 'SaffronTree: Reference free rapid phylogenetic tree construction from raw read data or assembled sequences',
+	description = 'Fast, reference-free pseudo-phylogenomic trees from reads or contigs.',
 	usage = 'saffrontree [options] output_directory *.fastq.gz')
 parser.add_argument('output_directory', help='Output directory', type=InputTypes.is_output_directory_valid )
 parser.add_argument('input_files', help='FASTQ/FASTA files which may be gzipped', nargs='+', type=InputTypes.is_fastq_valid)
