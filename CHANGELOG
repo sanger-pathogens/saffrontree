@@ -1,3 +1,10 @@
+v0.1.1 - 16/03/17
+------
+Update usage. 
+Separate option to keep intermediate files. 
+More descriptive temp directory names.
+Verbose option works, and prints out commands run.
+
 v0.1.0 - 10/03/17
 ------
 Draft paper

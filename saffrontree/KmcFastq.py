@@ -8,7 +8,7 @@ import shutil
 
 '''Wrapper script around KMC for creating kmer count database from FASTQ files'''
 class KmcFastq:
-	def __init__(self,output_directory, input_filename, threads, kmer, min_kmers_threshold, max_kmers_threshold, verbose = False):
+	def __init__(self,output_directory, input_filename, threads, kmer, min_kmers_threshold, max_kmers_threshold, verbose):
 		self.logger = logging.getLogger(__name__)
 		self.output_directory = output_directory
 		self.input_filename = input_filename
@@ -22,8 +22,12 @@ class KmcFastq:
 			self.min_kmers_threshold = min_kmers_threshold
 			
 		self.max_kmers_threshold = max_kmers_threshold
-		self.temp_working_dir = tempfile.mkdtemp(dir=os.path.abspath(output_directory))
+		self.temp_working_dir = tempfile.mkdtemp(dir=os.path.abspath(output_directory),prefix='tmp_samplekmers_')
 		self.verbose = verbose
+		if self.verbose:
+			self.logger.setLevel(logging.DEBUG)
+		else:
+			self.logger.setLevel(logging.ERROR)
 	
 	'''Create tempory output database name'''
 	def output_database_name(self):
@@ -39,10 +43,15 @@ class KmcFastq:
 	
 	'''Construct the command for the kmc executable'''
 	def kmc_command(self):
-		redirect_output = '> /dev/null 2>&1'
+		redirect_output = ''
 		if self.verbose:
 			redirect_output = ''
-		return ' '.join(['kmc', '-k'+str(self.kmer), self.file_type_option(), '-ci'+str(self.min_kmers_threshold), '-cx'+str(self.max_kmers_threshold), '-t'+str(self.threads),  self.input_filename, self.output_database_name(), self.temp_working_dir, redirect_output])
+		else:
+			redirect_output = '> /dev/null 2>&1'
+		
+		command_to_run = ' '.join(['kmc', '-k'+str(self.kmer), self.file_type_option(), '-ci'+str(self.min_kmers_threshold), '-cx'+str(self.max_kmers_threshold), '-t'+str(self.threads),  self.input_filename, self.output_database_name(), self.temp_working_dir, redirect_output])
+		self.logger.warning("Running: "+command_to_run )
+		return command_to_run
 	
 	'''Run the kmc command'''
 	def run(self):	

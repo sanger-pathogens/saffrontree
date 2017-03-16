@@ -27,19 +27,21 @@ class SaffronTree:
 		self.min_kmers_threshold        = options.min_kmers_threshold
 		self.max_kmers_threshold        = options.max_kmers_threshold
 		self.input_files                = options.input_files
+		self.keep_files                 = options.keep_files
 		self.object_to_be_cleaned       = []
-
-		self.kmc_major_version = KmcVersionDetect(self.verbose).major_version()
-
-		if self.verbose > 0:
+		
+		if self.verbose:
 			self.logger.setLevel(logging.DEBUG)
+		else:
+			self.logger.setLevel(logging.ERROR)
+		self.kmc_major_version = KmcVersionDetect(self.verbose).major_version()
 
 	def generate_kmers_for_each_file(self):
 		kmc_samples =[]
 		for input_file in sorted(self.input_files):
 			self.logger.warning('Generating kmer counts for %s', input_file)
 			sd = SampleData(input_file)
-			kmc_fastq = KmcFastq(self.output_directory, input_file, self.threads, self.kmer, self.min_kmers_threshold, self.max_kmers_threshold)
+			kmc_fastq = KmcFastq(self.output_directory, input_file, self.threads, self.kmer, self.min_kmers_threshold, self.max_kmers_threshold, self.verbose)
 			kmc_fastq.run()
 			sd.database_name = kmc_fastq.output_database_name()
 			kmc_samples.append(sd)
@@ -56,13 +58,13 @@ class SaffronTree:
 					continue
 				if second_sample.input_file in first_sample.distances:
 					continue
-				temp_working_dir = tempfile.mkdtemp(dir=os.path.abspath(self.output_directory))
+				temp_working_dir = tempfile.mkdtemp(dir=os.path.abspath(self.output_directory),prefix='tmp_pairwisecount_')
 				result_database = os.path.join(temp_working_dir, 'fastq_union')
 				kmc_intersect = KmcIntersect(first_sample.database_name, second_sample.database_name, self.output_directory, self.threads,result_database, self.verbose, self.kmc_major_version )
 				kmc_intersect.run()
 				first_sample.distances[second_sample.input_file] = kmc_intersect.num_common_kmers()
 				second_sample.distances[first_sample.input_file] = first_sample.distances[second_sample.input_file]
-				if self.verbose < 1:
+				if not self.verbose:
 					shutil.rmtree(temp_working_dir)	
 				
 				if kmc_intersect.common_kmer_count > largest_count:
@@ -98,7 +100,7 @@ class SaffronTree:
 		self.logger.warning("Creating a newick tree")
 		self.create_output_tree(kmc_samples, largest_count)
 
-		if self.verbose < 1:
+		if not self.keep_files :
 			'''Tidy up all the temp files'''
 			for current_obj in self.object_to_be_cleaned:
 				current_obj.cleanup()

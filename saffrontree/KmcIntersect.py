@@ -13,11 +13,15 @@ class KmcIntersect:
 		self.second_database = second_database
 		self.threads = threads
 		self.result_database = result_database
-		self.temp_working_dir = tempfile.mkdtemp(dir=output_directory)
+		self.temp_working_dir = tempfile.mkdtemp(dir=output_directory, prefix='tmp_intersectionkmers_')
 		self.kmc_output = ''
 		self.common_kmer_count = 0
 		self.verbose = verbose
 		self.kmc_major_version = kmc_major_version
+		if self.verbose:
+			self.logger.setLevel(logging.DEBUG)
+		else:
+			self.logger.setLevel(logging.ERROR)
 
 	'''Construct the command for kmc_tools to find the intersection of two databases'''
 	def kmc_intersect_command(self):
@@ -32,9 +36,11 @@ class KmcIntersect:
 	
 	'''Construct the command for kmc_tools to generate a histogram of the kmer frequencies'''	
 	def kmc_histogram_command(self):
-		redirect_output = '> /dev/null 2>&1'
+		redirect_output = ''
 		if self.verbose:
 			redirect_output = ''
+		else:
+			redirect_output = '> /dev/null 2>&1'
 			
 		if self.kmc_major_version == 2:
 			return ' '.join(['kmc_tools', 'histogram', self.result_database, self.output_histogram_file(), redirect_output ])
@@ -48,8 +54,13 @@ class KmcIntersect:
 	'''Find the intersection of the two databases, and count number of kmers in common'''
 	def run(self):
 		self.logger.warning("Finding kmers")
-		subprocess.call(self.kmc_intersect_command(), shell=True)
-		subprocess.call(self.kmc_histogram_command(), shell=True)
+		intersect_command = self.kmc_intersect_command()
+		histogram_command = self.kmc_histogram_command()
+		self.logger.warning("Intersect command: "+intersect_command)
+		self.logger.warning("Histogram command: "+histogram_command)
+		
+		subprocess.call(intersect_command, shell=True)
+		subprocess.call(histogram_command, shell=True)
 		self.common_kmer_count = self.num_common_kmers()
 		return self
 	
