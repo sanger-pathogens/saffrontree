@@ -82,6 +82,7 @@ There are a number of installation methods. Choosing the right one for the syste
 
 * Linux/OSX/Windows/Cloud
   * Docker
+  * Anaconda
 * Linux 
   * Debian Testing/Ubuntu 16.04 (Xenial)
   * Linuxbrew
@@ -110,6 +111,15 @@ docker run --rm -it -v /home/ubuntu/data:/data sangerpathogens/saffrontree saffr
 You will then have a tree in:
 ```
 /home/ubuntu/data/output_directory/kmer_tree.newick
+```
+
+## Anaconda
+Install [Anaconda](https://www.continuum.io/downloads). Then install the dependancies using conda and the software using pip:
+
+```
+conda config --add channels bioconda
+conda install git gcc kmc
+pip install git+git://github.com/sanger-pathogens/saffrontree.git
 ```
 
 ## Linux

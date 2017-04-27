@@ -3,6 +3,6 @@ python:
   - "3.5"
 sudo: false
 install:
-  - "source ./install_dependancies.sh"
+  - "source ./travisci_setup.sh"
 script:
   - "./run_tests.sh" 
