@@ -118,7 +118,7 @@ Install [Anaconda](https://www.continuum.io/downloads). Then install the dependa
 
 ```
 conda config --add channels bioconda
-conda install git gcc kmc
+conda install git kmc
 pip install git+git://github.com/sanger-pathogens/saffrontree.git
 ```
 
