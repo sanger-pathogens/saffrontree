@@ -75,7 +75,7 @@ The RAM(memory) requirement is low, because KMC is extremely efficient and mostl
 By default all of the intermediate files are cleaned up at the end, so the overall disk space usage is quite low. The intermediate files can be kept if you use the 'verbose' option. 
 
 # Output
-A single phylogenetic tree in Newick format is created in the output directory. 
+A single phylogenetic tree in Newick format is created in the output directory.  This is compatible with [BioPython](http://biopython.org/) and can be viewed with [FigTree](http://tree.bio.ed.ac.uk/software/figtree/). Unfortunatly there is no published standard for the newick format so there can be some incompatibilty issues between newer file formats, and older software.
 
 # Installation
 There are a number of installation methods. Choosing the right one for the system you use will make life easier. KMC version 2.3+ is supported, with KMC 3+ providing the best performance. 
