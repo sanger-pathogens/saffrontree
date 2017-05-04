@@ -5,6 +5,10 @@ Fast, reference-free pseudo-phylogenomic trees from reads or contigs.
 Quickly build a tree directly from raw reads or from assembled sequences, without the need for a reference sequence or *de novo* assemblies. SaffronTree takes FASTQ/FASTA files as input and uses a kmer analysis to build a phylogenetic neighbour joining tree in newick format.  It works well for small sets of samples (less than 50) but as the algorithm has a complexity of O(N^2), it does not perform well after that point.  This is good enough to give you rapid insights into your data in minutes, rather than hours. During outbreak investigations, researchers and epidemiologies often want to quickly rule a sample in or out of an outbreak. MLST does not provide enough granularity to achieve this, since it is based on only 7 house keeping genes. SaffronTree utilises all of the genomic data in the sample to create a visual representation of the clustering of the data.  It support NGS data (such as Illumina), 3rd generation data (Pacbio/Nanopore) and assembled sequences (FASTA).
 
 [![Build Status](https://travis-ci.org/sanger-pathogens/saffrontree.svg?branch=master)](https://travis-ci.org/sanger-pathogens/saffrontree)
+[![status](http://joss.theoj.org/papers/a001aa2b1e0d6068cd3da1295c9d8299/status.svg)](http://joss.theoj.org/papers/a001aa2b1e0d6068cd3da1295c9d8299)
+
+# Citation
+"SaffronTree: Fast,  reference-free pseudo-phylogenomic trees from reads or contigs", Andrew J. Page, Martin Hunt, Torsten Seemann and Jacqueline A. Keane. The Journal of Open Source Software, 2(13), 2017.
 
 # Usage 
 ```
