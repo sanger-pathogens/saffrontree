@@ -10,7 +10,7 @@ Quickly build a tree directly from raw reads or from assembled sequences, withou
 
 
 # Citation
-"SaffronTree: Fast,  reference-free pseudo-phylogenomic trees from reads or contigs", Andrew J. Page, Martin Hunt, Torsten Seemann and Jacqueline A. Keane. The Journal of Open Source Software, 2(13), 2017.
+"SaffronTree: Fast,  reference-free pseudo-phylogenomic trees from reads or contigs", Andrew J. Page, Martin Hunt, Torsten Seemann and Jacqueline A. Keane. The Journal of Open Source Software, 2(13), 2017. http://joss.theoj.org/papers/10.21105/joss.00243
 
 # Usage 
 ```
