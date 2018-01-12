@@ -88,12 +88,10 @@ There are a number of installation methods. Choosing the right one for the syste
 
 * Linux/OSX/Windows/Cloud
   * Docker
-  * Anaconda
+  * Conda
 * Linux 
   * Debian Testing/Ubuntu 16.04 (Xenial)
-  * Linuxbrew
 * OSX
-  * HomeBrew
   * OSX manual method
 
 # Linux/OSX/Windows/Cloud
@@ -119,8 +117,8 @@ You will then have a tree in:
 /home/ubuntu/data/output_directory/kmer_tree.newick
 ```
 
-## Anaconda
-Install [Anaconda](https://www.continuum.io/downloads). Then install the dependancies using conda and the software using pip:
+## Conda
+Install [Conda](https://www.continuum.io/downloads). Then install the dependancies using conda and the software using pip:
 
 ```
 conda config --add channels bioconda
@@ -138,29 +136,7 @@ apt-get install -y git python3 python3-setuptools python3-biopython python3-pip 
 pip3 install git+git://github.com/sanger-pathogens/saffrontree.git
 ```
 
-### Linuxbrew
-First install [LinuxBrew](http://linuxbrew.sh/), then follow the instructions below.
-
-```
-brew tap homebrew/science
-brew update
-brew install python3 kmc spades
-pip3 install git+git://github.com/sanger-pathogens/saffrontree.git
-```
-
-## OSX
-
-### Homebrew
-First install [HomeBrew](http://brew.sh/), then follow the instructions below.
-
-```
-brew tap homebrew/science
-brew update
-brew install python3 kmc spades
-pip3 install git+git://github.com/sanger-pathogens/saffrontree.git
-```
-
-### OSX manual method
+## OSX manual method
 Ensure Python 3.5+ is available or install it from https://www.python.org/downloads/ then follow the instructions below:
 ```
 wget https://github.com/refresh-bio/KMC/releases/download/v3.0.0/KMC3.mac.tar.gz 
