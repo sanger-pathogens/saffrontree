@@ -4,6 +4,11 @@ Fast, reference-free pseudo-phylogenomic trees from reads or contigs.
 [![Build Status](https://travis-ci.org/sanger-pathogens/saffrontree.svg?branch=master)](https://travis-ci.org/sanger-pathogens/saffrontree)  
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg)](https://github.com/sanger-pathogens/saffrontree/blob/master/LICENSE)  
 [![status](http://joss.theoj.org/papers/a001aa2b1e0d6068cd3da1295c9d8299/status.svg)](http://joss.theoj.org/papers/a001aa2b1e0d6068cd3da1295c9d8299)  
+[![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg)](http://bioconda.github.io/recipes/saffrontree/README.html)  
+[![Container ready](https://img.shields.io/badge/container-ready-brightgreen.svg)](https://quay.io/repository/biocontainers/saffrontree)  
+[![Docker Build Status](https://img.shields.io/docker/build/sangerpathogens/saffrontree.svg)](https://hub.docker.com/r/sangerpathogens/saffrontree)  
+[![Docker Pulls](https://img.shields.io/docker/pulls/sangerpathogens/saffrontree.svg)](https://hub.docker.com/r/sangerpathogens/saffrontree)  
+
 
 ## Contents
   * [Introduction](#introduction)
