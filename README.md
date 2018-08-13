@@ -8,6 +8,7 @@ Fast, reference-free pseudo-phylogenomic trees from reads or contigs.
 [![Container ready](https://img.shields.io/badge/container-ready-brightgreen.svg)](https://quay.io/repository/biocontainers/saffrontree)  
 [![Docker Build Status](https://img.shields.io/docker/build/sangerpathogens/saffrontree.svg)](https://hub.docker.com/r/sangerpathogens/saffrontree)  
 [![Docker Pulls](https://img.shields.io/docker/pulls/sangerpathogens/saffrontree.svg)](https://hub.docker.com/r/sangerpathogens/saffrontree)  
+[![codecov](https://codecov.io/gh/sanger-pathogens/saffrontree/branch/master/graph/badge.svg)](https://codecov.io/gh/sanger-pathogens/saffrontree)
 
 
 ## Contents

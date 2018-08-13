@@ -4,5 +4,9 @@ python:
 sudo: false
 install:
   - "source ./travisci_setup.sh"
+before_script:
+  - pip install codecov
 script:
-  - "./run_tests.sh" 
+  - "coverage run -m unittest discover -s saffrontree/tests/ -p '*_test.py'"
+after_success:
+  - codecov
