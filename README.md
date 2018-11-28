@@ -19,6 +19,7 @@ Fast, reference-free pseudo-phylogenomic trees from reads or contigs.
     * [Linux/OSX/Windows/Cloud](#linuxosxwindowscloud)
     * [Linux](#linux)
     * [OSX manual method](#osx-manual-method)
+    * [Running the tests](#running-the-tests)
   * [Usage](#usage)
     * [Input parameters](#input-parameters)
     * [Output](#output)
@@ -107,6 +108,13 @@ wget https://github.com/refresh-bio/KMC/releases/download/v3.0.0/KMC3.mac.tar.gz
 tar zxf KMC3.mac.tar.gz
 export PATH=$PWD:$PATH
 pip3 install git+git://github.com/sanger-pathogens/saffrontree.git
+```
+
+### Running the tests
+The test can be run from the top level directory:  
+
+```
+./run_tests.sh
 ```
 
 ## Usage
