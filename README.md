@@ -184,7 +184,7 @@ saffrontree output_directory saffrontree/example_data/fastas/*.fa saffrontree/ex
 SaffronTree is free software, licensed under [GPLv3](https://github.com/sanger-pathogens/saffrontree/blob/master/LICENSE).
 
 ## Feedback/Issues
-Please report any issues to the [issues page](https://github.com/sanger-pathogens/saffrontree/issues) or email path-help@sanger.ac.uk
+This software is now solely community supported.  Please report any issues to the [issues page](https://github.com/sanger-pathogens/saffrontree/issues).
 
 ## Citation
 "SaffronTree: Fast, reference-free pseudo-phylogenomic trees from reads or contigs", Andrew J. Page, Martin Hunt, Torsten Seemann and Jacqueline A. Keane. The Journal of Open Source Software, 2(13), 2017. http://joss.theoj.org/papers/10.21105/joss.00243
