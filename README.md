@@ -49,7 +49,7 @@ The RAM(memory) requirement is low, because KMC is extremely efficient and mostl
 #### Disk space
 By default all of the intermediate files are cleaned up at the end, so the overall disk space usage is quite low. The intermediate files can be kept if you use the 'verbose' option.
 
-There are a number of installation methods. Choosing the right one for the system you use will make life easier. KMC version 2.3+ is supported, with KMC 3+ providing the best performance. If you encounter an issue when installing SaffronTree please contact your local system administrator. If you encounter a bug please log it [here](https://github.com/sanger-pathogens/saffrontree/issues) or email us at path-help@sanger.ac.uk.
+There are a number of installation methods. Choosing the right one for the system you use will make life easier. KMC version 2.3+ is supported, with KMC 3+ providing the best performance. If you encounter an issue when installing SaffronTree please contact your local system administrator. If you encounter a bug please log it [here](https://github.com/sanger-pathogens/saffrontree/issues).
 
 * Linux/OSX/Windows/Cloud
   * Docker
@@ -192,9 +192,6 @@ This software is now solely community supported.  Please report any issues to th
 ## FAQ
 ### How to contribute to the software
 If you wish to contribute to this software please fork the project on GitHub and submit a pull request. We will endevor to review it within a few days. Please include automated tests and example data (if relevant) in your pull request and ensure all the existing tests already pass. Comments and documentation should be in British English.
-
-### Bug reports, feature requests and any questions
-If you wish to report a bug, request a new feature or have any queries about how the software works, please submit an issue on the GitHub repository page. We will try to fix bugs in a timely fashion. New feature requests will depend on if we find them useful in our own work. If you would like to contact us directly, you can email path-help@sanger.ac.uk and we will get back to you. We are based in the UK (GMT), working Monday to Friday (9-5).
 
 ### I found a bug with some data but its private, can I send it to you for debugging?
 Please do not send us any private data. We will not sign an NDA. 
